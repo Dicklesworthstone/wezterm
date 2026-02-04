@@ -47,9 +47,16 @@ pub mod termwiztermtab;
 pub mod tmux;
 pub mod tmux_commands;
 mod tmux_pty;
+#[cfg(feature = "wa-integration")]
+pub mod wa_events;
 pub mod window;
 
 use crate::activity::Activity;
+#[cfg(feature = "wa-integration")]
+use crate::wa_events::{emit_wa_event, pane_state_from_pane};
+
+#[cfg(feature = "wa-integration")]
+pub use wa_events::{init_wa_integration_from_env, register_wa_event_sink, WaEventSink, WaPaneState};
 
 pub const DEFAULT_WORKSPACE: &str = "default";
 
@@ -125,6 +132,11 @@ fn send_actions_to_mux(pane: &Weak<dyn Pane>, dead: &Arc<AtomicBool>, actions: V
         Some(pane) => {
             pane.perform_actions(actions);
             histogram!("send_actions_to_mux.perform_actions.latency").record(start.elapsed());
+            #[cfg(feature = "wa-integration")]
+            {
+                let state = pane_state_from_pane(pane.as_ref());
+                emit_wa_event(|sink| sink.on_pane_state_change(pane.pane_id() as u64, &state));
+            }
             Mux::notify_from_any_thread(MuxNotification::PaneOutput(pane.pane_id()));
         }
         None => {
@@ -157,6 +169,10 @@ fn parse_buffered_data(pane: Weak<dyn Pane>, dead: &Arc<AtomicBool>, mut rx: Fil
                 break;
             }
             Ok(size) => {
+                #[cfg(feature = "wa-integration")]
+                if let Some(pane) = pane.upgrade() {
+                    emit_wa_event(|sink| sink.on_pane_output(pane.pane_id() as u64, &buf[..size]));
+                }
                 parser.parse(&buf[0..size], |action| {
                     let mut flush = false;
                     match &action {
@@ -792,6 +808,19 @@ impl Mux {
             thread::spawn(move || read_from_pane_pty(pane, banner, reader));
         }
         self.recompute_pane_count();
+        #[cfg(feature = "wa-integration")]
+        {
+            let domain_name = self
+                .get_domain(pane.domain_id())
+                .map(|domain| domain.domain_name().to_string())
+                .unwrap_or_else(|| "unknown".to_string());
+            let cwd = pane
+                .get_current_working_dir(CachePolicy::AllowStale)
+                .map(|url| url.to_string());
+            emit_wa_event(|sink| {
+                sink.on_pane_created(pane_id as u64, &domain_name, cwd.as_deref());
+            });
+        }
         self.notify(MuxNotification::PaneAdded(pane_id));
         Ok(())
     }
@@ -815,6 +844,8 @@ impl Mux {
         if let Some(pane) = self.panes.write().remove(&pane_id).clone() {
             log::debug!("killing pane {}", pane_id);
             pane.kill();
+            #[cfg(feature = "wa-integration")]
+            emit_wa_event(|sink| sink.on_pane_destroyed(pane_id as u64));
             self.notify(MuxNotification::PaneRemoved(pane_id));
             changed = true;
         }

@@ -6,6 +6,8 @@ use crate::pane::{
 use crate::renderable::*;
 use crate::tmux::{TmuxDomain, TmuxDomainState};
 use crate::{Domain, Mux, MuxNotification};
+#[cfg(feature = "wa-integration")]
+use crate::wa_events::{emit_wa_event, pane_state_from_pane};
 use anyhow::Error;
 use async_trait::async_trait;
 use config::keyassignment::ScrollbackEraseMode;
@@ -934,6 +936,11 @@ impl AlertHandler for LocalPaneNotifHandler {
                             window.set_title(title);
                         }
                     }
+                    #[cfg(feature = "wa-integration")]
+                    if let Some(pane) = mux.get_pane(pane_id) {
+                        let state = pane_state_from_pane(pane.as_ref());
+                        emit_wa_event(|sink| sink.on_pane_state_change(pane_id as u64, &state));
+                    }
                 }
                 Alert::TabTitleChanged(title) => {
                     if let Some((_domain, _window_id, tab_id)) = mux.resolve_pane_id(pane_id) {
@@ -941,7 +948,27 @@ impl AlertHandler for LocalPaneNotifHandler {
                             tab.set_title(title.as_deref().unwrap_or(""));
                         }
                     }
+                    #[cfg(feature = "wa-integration")]
+                    if let Some(pane) = mux.get_pane(pane_id) {
+                        let state = pane_state_from_pane(pane.as_ref());
+                        emit_wa_event(|sink| sink.on_pane_state_change(pane_id as u64, &state));
+                    }
                 }
+                Alert::CurrentWorkingDirectoryChanged | Alert::IconTitleChanged(_) => {
+                    #[cfg(feature = "wa-integration")]
+                    if let Some(pane) = mux.get_pane(pane_id) {
+                        let state = pane_state_from_pane(pane.as_ref());
+                        emit_wa_event(|sink| sink.on_pane_state_change(pane_id as u64, &state));
+                    }
+                }
+                #[cfg(feature = "wa-integration")]
+                Alert::SetUserVar { name, value } => {
+                    emit_wa_event(|sink| {
+                        sink.on_user_var_changed(pane_id as u64, name.as_str(), value.as_str());
+                    });
+                }
+                #[cfg(not(feature = "wa-integration"))]
+                Alert::SetUserVar { .. } => {}
                 _ => {}
             }
 
