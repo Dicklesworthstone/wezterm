@@ -59,3 +59,6 @@ workspace = true
 [target.'cfg(windows)'.build-dependencies]
 cc.workspace = true
 embed-resource.workspace = true
+
+[features]
+wa-integration = ["mux/wa-integration"]

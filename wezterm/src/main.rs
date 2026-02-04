@@ -732,6 +732,8 @@ fn init_config(opts: &Opt) -> anyhow::Result<ConfigHandle> {
 
 fn run() -> anyhow::Result<()> {
     env_bootstrap::bootstrap();
+    #[cfg(feature = "wa-integration")]
+    mux::init_wa_integration_from_env();
 
     let saver = UmaskSaver::new();
 
