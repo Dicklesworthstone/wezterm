@@ -1199,6 +1199,8 @@ fn run() -> anyhow::Result<()> {
     };
 
     env_bootstrap::bootstrap();
+    #[cfg(feature = "wa-integration")]
+    mux::init_wa_integration_from_env();
     // window_funcs is not set up by env_bootstrap as window_funcs is
     // GUI environment specific and env_bootstrap is used to setup the
     // headless mux server.
