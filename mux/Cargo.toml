@@ -36,6 +36,7 @@ procinfo.workspace = true
 promise.workspace = true
 rangeset.workspace = true
 serde = {workspace=true, features = ["rc", "derive"]}
+serde_json = { workspace = true, optional = true }
 serial2.workspace = true
 shell-words.workspace = true
 smol.workspace = true
@@ -48,6 +49,7 @@ url.workspace = true
 wezterm-dynamic.workspace = true
 wezterm-ssh.workspace = true
 wezterm-term = { workspace=true, features=["use_serde"] }
+wezterm-uds = { workspace = true, optional = true }
 
 [target."cfg(windows)".dependencies]
 ntapi.workspace = true
@@ -61,3 +63,6 @@ winapi = { workspace=true, features = [
 
 [dev-dependencies]
 k9.workspace = true
+
+[features]
+wa-integration = ["dep:serde_json", "dep:wezterm-uds"]
