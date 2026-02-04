@@ -23,6 +23,9 @@ exclude = [
   "wezterm-char-props/codegen",
 ]
 
+[workspace.features]
+wa-integration = []
+
 
 [profile.release]
 opt-level = 3
