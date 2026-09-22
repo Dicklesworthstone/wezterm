@@ -120,7 +120,7 @@
   border-style: solid;
   cursor: text;
   border-width: 0.75em;
-  font-family: Consolas, Menlo, "Bitstream Vera Sans Mono", monospace, "Powerline Symbols";
+  font-family: Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols';
 }
 .asciinema-terminal .line {
   letter-spacing: normal;
@@ -1803,7 +1803,7 @@
   background-color: #121314;
 }
 .asciinema-theme-asciinema .asciinema-terminal {
-  color: #cccccc;
+  color: #CCCCCC;
   background-color: #121314;
   border-color: #121314;
 }
@@ -1811,7 +1811,7 @@
   color: #121314;
 }
 .asciinema-theme-asciinema .bg-fg {
-  background-color: #cccccc;
+  background-color: #CCCCCC;
 }
 .asciinema-theme-asciinema .fg-0 {
   color: hsl(0, 0%, 0%);
@@ -1923,7 +1923,7 @@
   background-color: #121314;
 }
 .asciinema-theme-tango .asciinema-terminal {
-  color: #cccccc;
+  color: #CCCCCC;
   background-color: #121314;
   border-color: #121314;
 }
@@ -1931,7 +1931,7 @@
   color: #121314;
 }
 .asciinema-theme-tango .bg-fg {
-  background-color: #cccccc;
+  background-color: #CCCCCC;
 }
 .asciinema-theme-tango .fg-0 {
   color: #000000;
@@ -1940,46 +1940,46 @@
   background-color: #000000;
 }
 .asciinema-theme-tango .fg-1 {
-  color: #cc0000;
+  color: #CC0000;
 }
 .asciinema-theme-tango .bg-1 {
-  background-color: #cc0000;
+  background-color: #CC0000;
 }
 .asciinema-theme-tango .fg-2 {
-  color: #4e9a06;
+  color: #4E9A06;
 }
 .asciinema-theme-tango .bg-2 {
-  background-color: #4e9a06;
+  background-color: #4E9A06;
 }
 .asciinema-theme-tango .fg-3 {
-  color: #c4a000;
+  color: #C4A000;
 }
 .asciinema-theme-tango .bg-3 {
-  background-color: #c4a000;
+  background-color: #C4A000;
 }
 .asciinema-theme-tango .fg-4 {
-  color: #3465a4;
+  color: #3465A4;
 }
 .asciinema-theme-tango .bg-4 {
-  background-color: #3465a4;
+  background-color: #3465A4;
 }
 .asciinema-theme-tango .fg-5 {
-  color: #75507b;
+  color: #75507B;
 }
 .asciinema-theme-tango .bg-5 {
-  background-color: #75507b;
+  background-color: #75507B;
 }
 .asciinema-theme-tango .fg-6 {
-  color: #06989a;
+  color: #06989A;
 }
 .asciinema-theme-tango .bg-6 {
-  background-color: #06989a;
+  background-color: #06989A;
 }
 .asciinema-theme-tango .fg-7 {
-  color: #d3d7cf;
+  color: #D3D7CF;
 }
 .asciinema-theme-tango .bg-7 {
-  background-color: #d3d7cf;
+  background-color: #D3D7CF;
 }
 .asciinema-theme-tango .fg-8 {
   color: #555753;
@@ -1988,46 +1988,46 @@
   background-color: #555753;
 }
 .asciinema-theme-tango .fg-9 {
-  color: #ef2929;
+  color: #EF2929;
 }
 .asciinema-theme-tango .bg-9 {
-  background-color: #ef2929;
+  background-color: #EF2929;
 }
 .asciinema-theme-tango .fg-10 {
-  color: #8ae234;
+  color: #8AE234;
 }
 .asciinema-theme-tango .bg-10 {
-  background-color: #8ae234;
+  background-color: #8AE234;
 }
 .asciinema-theme-tango .fg-11 {
-  color: #fce94f;
+  color: #FCE94F;
 }
 .asciinema-theme-tango .bg-11 {
-  background-color: #fce94f;
+  background-color: #FCE94F;
 }
 .asciinema-theme-tango .fg-12 {
-  color: #729fcf;
+  color: #729FCF;
 }
 .asciinema-theme-tango .bg-12 {
-  background-color: #729fcf;
+  background-color: #729FCF;
 }
 .asciinema-theme-tango .fg-13 {
-  color: #ad7fa8;
+  color: #AD7FA8;
 }
 .asciinema-theme-tango .bg-13 {
-  background-color: #ad7fa8;
+  background-color: #AD7FA8;
 }
 .asciinema-theme-tango .fg-14 {
-  color: #34e2e2;
+  color: #34E2E2;
 }
 .asciinema-theme-tango .bg-14 {
-  background-color: #34e2e2;
+  background-color: #34E2E2;
 }
 .asciinema-theme-tango .fg-15 {
-  color: #eeeeec;
+  color: #EEEEEC;
 }
 .asciinema-theme-tango .bg-15 {
-  background-color: #eeeeec;
+  background-color: #EEEEEC;
 }
 .asciinema-theme-tango .fg-8,
 .asciinema-theme-tango .fg-9,
